@@ -1,6 +1,6 @@
 tonal_exams_raw:
   type: pandas.CSVDataset
-  filepath: data/01_raw/tonal_exams.csv
+  filepath: data/01_raw/tonal_exams_raw.csv
 
 tonal_exams_clean:
   type: pandas.ParquetDataset
