@@ -1,7 +1,23 @@
 tonal_exams_raw:
   type: pandas.CSVDataset
-  filepath: data/01_raw/tonal_exams.csv
+  filepath: data/01_raw/tonal_exams_raw.csv
 
 tonal_exams_clean:
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/tonal_exams_clean.parquet
+
+X_train:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_train.pkl
+
+X_test:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_test.pkl
+
+y_train:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/y_train.pkl
+
+y_test:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/y_test.pkl
