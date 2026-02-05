@@ -21,3 +21,7 @@ y_train:
 y_test:
   type: pickle.PickleDataset
   filepath: data/05_model_input/y_test.pkl
+
+ml_model:
+  type: pickle.PickleDataset
+  filepath: data/06_models/audiogram_model.pkl
