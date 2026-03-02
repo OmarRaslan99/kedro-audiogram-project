@@ -3,6 +3,7 @@ import pandas as pd
 import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestRegressor
+from audiogram_mlops.utils.mlflow_setup import setup_mlflow
 
 
 def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame):
@@ -16,8 +17,8 @@ def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame):
     """
     logger = logging.getLogger(__name__)
 
-    # Nom d'expérience (simple et stable pour le TP)
-    mlflow.set_experiment("audiogram-mlops")
+    # Force MLflow à tracker dans ./mlruns du projet
+    setup_mlflow("audiogram-mlops")
 
     # Active l'autolog scikit-learn
     mlflow.sklearn.autolog(log_models=True)

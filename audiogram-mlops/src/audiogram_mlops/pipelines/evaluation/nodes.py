@@ -11,6 +11,7 @@ import mlflow
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, r2_score, precision_score, recall_score, f1_score
+from audiogram_mlops.utils.mlflow_setup import setup_mlflow
 
 
 def evaluate_model(model, test_data: pd.DataFrame, test_labels: pd.DataFrame):
@@ -23,8 +24,8 @@ def evaluate_model(model, test_data: pd.DataFrame, test_labels: pd.DataFrame):
     """
     logger = logging.getLogger(__name__)
 
-    # Nom d'expérience (simple et stable pour le TP)
-    mlflow.set_experiment("audiogram-mlops")
+    # Force MLflow à tracker dans ./mlruns du projet
+    setup_mlflow("audiogram-mlops")
 
     # 1) Prédictions
     predictions = model.predict(test_data)
