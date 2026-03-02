@@ -25,3 +25,6 @@ y_test:
 ml_model:
   type: pickle.PickleDataset
   filepath: data/06_models/audiogram_model.pkl
+
+performance_metrics:
+  type: MemoryDataset

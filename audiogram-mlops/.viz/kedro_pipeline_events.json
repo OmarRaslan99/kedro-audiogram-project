@@ -1,7 +1,28 @@
 [
   {
     "event": "before_pipeline_run",
-    "timestamp": "2026-02-05T11:35:53.112143+00:00"
+    "timestamp": "2026-03-02T11:13:31.642220+00:00"
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "tonal_exams_raw",
+    "node_id": "b80926c3",
+    "status": "Available",
+    "size": 407484
+  },
+  {
+    "event": "after_node_run",
+    "node": "clean_tonal_exams_node",
+    "node_id": "f5a54b0b",
+    "duration": 0.07355860000097891,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "tonal_exams_clean",
+    "node_id": "bac47684",
+    "status": "Available",
+    "size": 103674
   },
   {
     "event": "after_dataset_loaded",
@@ -14,7 +35,7 @@
     "event": "after_node_run",
     "node": "make_train_test_node",
     "node_id": "b9ed0f7a",
-    "duration": 0.05361179900046409,
+    "duration": 0.006397499999366119,
     "status": "success"
   },
   {
@@ -46,7 +67,70 @@
     "size": 75369
   },
   {
+    "event": "after_dataset_loaded",
+    "dataset": "X_train",
+    "node_id": "cae2d1c7",
+    "status": "Available",
+    "size": 298928
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "y_train",
+    "node_id": "9ca016a8",
+    "status": "Available",
+    "size": 298921
+  },
+  {
+    "event": "after_node_run",
+    "node": "train_model_node",
+    "node_id": "f27d31bd",
+    "duration": 9.276824851000129,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "ml_model",
+    "node_id": "a43fa7e1",
+    "status": "Available",
+    "size": 70273460
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "ml_model",
+    "node_id": "a43fa7e1",
+    "status": "Available",
+    "size": 70273460
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "X_test",
+    "node_id": "872981f9",
+    "status": "Available",
+    "size": 75376
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "y_test",
+    "node_id": "f6d9538c",
+    "status": "Available",
+    "size": 75369
+  },
+  {
+    "event": "after_node_run",
+    "node": "evaluate_model_node",
+    "node_id": "3255661d",
+    "duration": 0.21276139300061914,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "performance_metrics",
+    "node_id": "fa6174c2",
+    "status": "Available",
+    "size": 0
+  },
+  {
     "event": "after_pipeline_run",
-    "timestamp": "2026-02-05T11:35:53.304895+00:00"
+    "timestamp": "2026-03-02T11:13:41.638519+00:00"
   }
 ]
