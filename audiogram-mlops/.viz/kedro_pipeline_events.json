@@ -1,7 +1,7 @@
 [
   {
     "event": "before_pipeline_run",
-    "timestamp": "2026-03-02T11:13:31.642220+00:00"
+    "timestamp": "2026-03-02T13:32:40.119996+00:00"
   },
   {
     "event": "after_dataset_loaded",
@@ -14,7 +14,7 @@
     "event": "after_node_run",
     "node": "clean_tonal_exams_node",
     "node_id": "f5a54b0b",
-    "duration": 0.07355860000097891,
+    "duration": 0.05461491499954718,
     "status": "success"
   },
   {
@@ -35,7 +35,7 @@
     "event": "after_node_run",
     "node": "make_train_test_node",
     "node_id": "b9ed0f7a",
-    "duration": 0.006397499999366119,
+    "duration": 0.010775859000204946,
     "status": "success"
   },
   {
@@ -81,10 +81,17 @@
     "size": 298921
   },
   {
+    "event": "after_dataset_loaded",
+    "dataset": "params:model_options",
+    "node_id": "ab512939",
+    "status": "Available",
+    "size": 0
+  },
+  {
     "event": "after_node_run",
     "node": "train_model_node",
-    "node_id": "f27d31bd",
-    "duration": 9.276824851000129,
+    "node_id": "f7510b58",
+    "duration": 4.286463450998781,
     "status": "success"
   },
   {
@@ -92,14 +99,14 @@
     "dataset": "ml_model",
     "node_id": "a43fa7e1",
     "status": "Available",
-    "size": 70273460
+    "size": 210688
   },
   {
     "event": "after_dataset_loaded",
     "dataset": "ml_model",
     "node_id": "a43fa7e1",
     "status": "Available",
-    "size": 70273460
+    "size": 210688
   },
   {
     "event": "after_dataset_loaded",
@@ -119,7 +126,7 @@
     "event": "after_node_run",
     "node": "evaluate_model_node",
     "node_id": "3255661d",
-    "duration": 0.21276139300061914,
+    "duration": 0.05786684400118247,
     "status": "success"
   },
   {
@@ -131,6 +138,6 @@
   },
   {
     "event": "after_pipeline_run",
-    "timestamp": "2026-03-02T11:13:41.638519+00:00"
+    "timestamp": "2026-03-02T13:32:44.753076+00:00"
   }
 ]

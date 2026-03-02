@@ -5,40 +5,36 @@ import mlflow.sklearn
 from sklearn.ensemble import RandomForestRegressor
 from audiogram_mlops.utils.mlflow_setup import setup_mlflow
 
-
-def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame):
-    """
-    Entraîne le modèle pour prédire les gains (y) à partir des features (X),
-    et loggue un run MLflow séparé (Run #1 : training).
-
-    - Utilise mlflow.sklearn.autolog() pour historiser automatiquement :
-      paramètres, métriques, artefacts, modèle.
-    - Crée un run MLflow dédié nommé "training".
-    """
+# Ajoute 'parameters' dans les arguments ici
+def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame, parameters: dict):
     logger = logging.getLogger(__name__)
 
-    # Force MLflow à tracker dans ./mlruns du projet
+    # 1. Configuration MLflow 
     setup_mlflow("audiogram-mlops")
 
-    # Active l'autolog scikit-learn
+    # 2. Récupération sécurisée des hyperparamètres
+    n_estimators = parameters.get("n_estimators", 100)
+    max_depth = parameters.get("max_depth", 6)
+    random_state = parameters.get("random_state", 42)
+
+    # 3. Activation de l'autologging 
     mlflow.sklearn.autolog(log_models=True)
 
-    # Hyperparamètres (on les garde explicitement aussi, utile pour lecture)
-    n_estimators = 100
-    random_state = 42
-
-    model = RandomForestRegressor(n_estimators=n_estimators, random_state=random_state)
+    model = RandomForestRegressor(
+        n_estimators=n_estimators, 
+        max_depth=max_depth, 
+        random_state=random_state
+    )
 
     with mlflow.start_run(run_name="training") as run:
         logger.info(f"[MLflow] training run_id = {run.info.run_id}")
 
-        # Log manuel (optionnel mais clair) : params
-        mlflow.log_param("model_type", "RandomForestRegressor")
+        # Logs manuels pour plus de clarté dans le tableau
         mlflow.log_param("n_estimators", n_estimators)
-        mlflow.log_param("random_state", random_state)
+        mlflow.log_param("max_depth", max_depth)
 
-        logger.info("Entraînement du modèle en cours...")
+        logger.info(f"Entraînement RandomForest (n={n_estimators}, depth={max_depth})...")
         model.fit(X_train, y_train)
-
         logger.info("Modèle entraîné avec succès.")
+        
         return model

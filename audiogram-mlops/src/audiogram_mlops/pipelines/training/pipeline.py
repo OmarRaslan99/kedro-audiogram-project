@@ -12,7 +12,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=train_model,
                 # Attention : Doit correspondre exactement au catalogue
-                inputs=["X_train", "y_train"],
+                inputs=["X_train", "y_train","params:model_options"],
                 outputs="ml_model",
                 name="train_model_node",
             ),

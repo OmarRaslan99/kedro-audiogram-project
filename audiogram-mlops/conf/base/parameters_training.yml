@@ -1,5 +1,4 @@
-# This is a boilerplate parameters config generated for pipeline 'training'
-# using Kedro 1.2.0.
-#
-# Documentation for this file format can be found in "Parameters"
-# Link: https://docs.kedro.org/en/1.2.0/configuration/parameters.html
+model_options:
+  n_estimators: 100
+  max_depth: 3
+  random_state: 42
