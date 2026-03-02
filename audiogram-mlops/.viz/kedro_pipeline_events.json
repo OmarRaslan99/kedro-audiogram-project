@@ -1,0 +1,52 @@
+[
+  {
+    "event": "before_pipeline_run",
+    "timestamp": "2026-02-05T11:35:53.112143+00:00"
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "tonal_exams_clean",
+    "node_id": "bac47684",
+    "status": "Available",
+    "size": 103674
+  },
+  {
+    "event": "after_node_run",
+    "node": "make_train_test_node",
+    "node_id": "b9ed0f7a",
+    "duration": 0.05361179900046409,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "X_train",
+    "node_id": "cae2d1c7",
+    "status": "Available",
+    "size": 298928
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "X_test",
+    "node_id": "872981f9",
+    "status": "Available",
+    "size": 75376
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "y_train",
+    "node_id": "9ca016a8",
+    "status": "Available",
+    "size": 298921
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "y_test",
+    "node_id": "f6d9538c",
+    "status": "Available",
+    "size": 75369
+  },
+  {
+    "event": "after_pipeline_run",
+    "timestamp": "2026-02-05T11:35:53.304895+00:00"
+  }
+]
