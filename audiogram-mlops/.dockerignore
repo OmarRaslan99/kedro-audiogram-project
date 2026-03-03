@@ -1,0 +1,55 @@
+# =============================================================================
+#  .dockerignore — audiogram-mlops
+# =============================================================================
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.eggs
+dist
+build
+
+# Kedro
+.viz
+.telemetry
+
+# MLflow runs (recréés lors du training)
+mlruns/
+mlflow.db
+
+# Environnements virtuels
+.venv
+venv
+env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs
+docs/
+
+# Tests
+tests/
+
+# Notebooks
+notebooks/
+
+# Logs
+*.log
+info.log
+
+# Outputs (recréés lors de l'évaluation)
+outputs/

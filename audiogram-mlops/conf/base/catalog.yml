@@ -61,3 +61,10 @@ ml_model_vocal:
 
 performance_metrics_vocal:
   type: MemoryDataset
+
+# ── API inputs (requêtes utilisateur sauvegardées) ───────────────────
+# Les fichiers JSONL sont gérés directement par app.py, pas par Kedro.
+# Ce dataset est référencé ici à titre documentaire.
+# api_user_requests:
+#   type: text.TextDataset
+#   filepath: data/07_api_inputs/
