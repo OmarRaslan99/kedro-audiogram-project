@@ -9,6 +9,7 @@ Lancer :
 """
 
 import json
+import os
 
 import numpy as np
 import requests
@@ -17,7 +18,7 @@ import streamlit as st
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-API_URL = "http://127.0.0.1:5001"
+API_URL = os.getenv("API_URL", "http://127.0.0.1:5001")
 
 FREQ_LABELS = ["125", "250", "500", "1000", "2000", "4000", "8000"]
 BEFORE_COLS = [f"before_exam_{f}_Hz" for f in FREQ_LABELS]

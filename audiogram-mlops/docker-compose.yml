@@ -1,0 +1,46 @@
+# =============================================================================
+#  docker-compose.yml — audiogram-mlops
+# =============================================================================
+#  Services :
+#    api   → Flask REST API  (port 5001)
+#    front → Streamlit UI    (port 8501)
+#
+#  Usage :
+#    docker compose up -d --build   → build + lancement
+#    docker compose down             → arrêt
+#    docker compose logs -f          → logs en temps réel
+# =============================================================================
+
+services:
+  # ── API Flask ─────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: audiogram-api
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5001/')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ── Frontend Streamlit ────────────────────────────────────────────────────
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: audiogram-front
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:5001
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

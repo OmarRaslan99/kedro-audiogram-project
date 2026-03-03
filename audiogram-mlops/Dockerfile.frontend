@@ -1,0 +1,29 @@
+# =============================================================================
+#  Dockerfile.frontend — Streamlit UI
+# =============================================================================
+
+FROM python:3.10-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# ── Dépendances Python (uniquement celles du frontend) ──────────────────────
+RUN pip install --no-cache-dir \
+    streamlit==1.53.1 \
+    requests==2.32.5 \
+    numpy==2.2.6
+
+# ── Copie du frontend ───────────────────────────────────────────────────────
+COPY frontend.py .
+
+# ── Port Streamlit ──────────────────────────────────────────────────────────
+EXPOSE 8501
+
+# ── Commande de démarrage ───────────────────────────────────────────────────
+CMD ["streamlit", "run", "frontend.py", \
+     "--server.port=8501", \
+     "--server.address=0.0.0.0", \
+     "--server.headless=true"]

@@ -14,15 +14,16 @@
 #    make stop         → arrête les serveurs
 #    make api          → lance l'API REST Flask (port 5001)
 #    make front        → lance le frontend Streamlit (port 8501)
-#    make docker-build → construit l'image Docker
-#    make docker-run   → lance le conteneur Docker (arrière-plan)
+#    make docker-build → construit les images Docker (api + front)
+#    make docker-run   → lance les conteneurs (arrière-plan)
 #    make docker-all   → build + run en une commande
-#    make docker-clean → supprime conteneurs et images Docker
+#    make docker-down  → arrête les conteneurs Docker
+#    make docker-clean → supprime conteneurs, images et volumes Docker
 # ============================================================================
 
 SHELL := /bin/bash
 
-.PHONY: clean tonal vocal run tune-tonal tune-vocal tune viz mlflow api front docker-build docker-run docker-all docker-clean stop
+.PHONY: clean tonal vocal run tune-tonal tune-vocal tune viz mlflow api front docker-build docker-run docker-all docker-down docker-clean stop
 
 # ── CLEAN ───────────────────────────────────────────────────────────────────
 clean:
@@ -108,25 +109,36 @@ front:
 	@echo "🖥️  Frontend Streamlit → http://localhost:8501"
 	streamlit run frontend.py --server.port 8501
 
-# ── DOCKER ──────────────────────────────────────────────────────────────────
+# ── DOCKER COMPOSE ──────────────────────────────────────────────────────────
 docker-build:
-	@echo "🐳 Construction de l'image Docker..."
-	docker build -t audiogram-mlops:latest .
-	@echo "✅ Image Docker construite."
+	@echo "🐳 Construction des images Docker (api + front)..."
+	docker compose build
+	@echo "✅ Images Docker construites."
 
 docker-run:
-	@echo "🐳 Lancement du conteneur en arrière-plan..."
-	docker run -d --name audiogram-mlops -p 5001:5001 audiogram-mlops:latest
-	@echo "✅ Conteneur lancé → http://127.0.0.1:5001"
-	@echo "   Logs : docker logs -f audiogram-mlops"
+	@echo "🐳 Lancement des conteneurs en arrière-plan..."
+	docker compose up -d
+	@echo "✅ Conteneurs lancés :"
+	@echo "   API   → http://127.0.0.1:5001"
+	@echo "   Front → http://127.0.0.1:8501"
+	@echo "   Logs  : docker compose logs -f"
 
-docker-all: docker-build docker-run
+docker-all:
+	@echo "🐳 Build + lancement des conteneurs..."
+	docker compose up -d --build
+	@echo "✅ Conteneurs lancés :"
+	@echo "   API   → http://127.0.0.1:5001"
+	@echo "   Front → http://127.0.0.1:8501"
+	@echo "   Logs  : docker compose logs -f"
+
+docker-down:
+	@echo "🛑 Arrêt des conteneurs Docker..."
+	docker compose down
+	@echo "✅ Conteneurs arrêtés."
 
 docker-clean:
 	@echo "🗑️  Nettoyage Docker complet..."
-	@-docker stop audiogram-mlops 2>/dev/null || true
-	@-docker rm audiogram-mlops 2>/dev/null || true
-	@-docker rmi audiogram-mlops:latest 2>/dev/null || true
+	docker compose down --rmi all --volumes --remove-orphans
 	@-docker system prune -f 2>/dev/null || true
 	@echo "✅ Docker nettoyé."
 
