@@ -3,3 +3,7 @@
 #
 # Documentation for this file format can be found in "Parameters"
 # Link: https://docs.kedro.org/en/1.2.0/configuration/parameters.html
+
+vocal_tolerances:
+  tol_srt50: 5.0
+  tol_gain_db: 5.0

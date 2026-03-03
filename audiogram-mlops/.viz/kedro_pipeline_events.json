@@ -1,7 +1,49 @@
 [
   {
     "event": "before_pipeline_run",
-    "timestamp": "2026-02-05T11:35:53.112143+00:00"
+    "timestamp": "2026-03-03T10:44:44.174590+00:00"
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "tonal_exams_raw",
+    "node_id": "b80926c3",
+    "status": "Available",
+    "size": 407484
+  },
+  {
+    "event": "after_node_run",
+    "node": "clean_tonal_exams_node",
+    "node_id": "f5a54b0b",
+    "duration": 0.07691869699920062,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "tonal_exams_clean",
+    "node_id": "bac47684",
+    "status": "Available",
+    "size": 103674
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "vocal_exams_raw",
+    "node_id": "a828e20d",
+    "status": "Available",
+    "size": 1505358
+  },
+  {
+    "event": "after_node_run",
+    "node": "clean_vocal_exams_node",
+    "node_id": "215ddb85",
+    "duration": 0.016566598998906557,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "vocal_exams_clean",
+    "node_id": "1fb14079",
+    "status": "Available",
+    "size": 93434
   },
   {
     "event": "after_dataset_loaded",
@@ -14,7 +56,7 @@
     "event": "after_node_run",
     "node": "make_train_test_node",
     "node_id": "b9ed0f7a",
-    "duration": 0.05361179900046409,
+    "duration": 0.008586898999055848,
     "status": "success"
   },
   {
@@ -46,7 +88,196 @@
     "size": 75369
   },
   {
+    "event": "after_dataset_loaded",
+    "dataset": "vocal_exams_clean",
+    "node_id": "1fb14079",
+    "status": "Available",
+    "size": 93434
+  },
+  {
+    "event": "after_node_run",
+    "node": "make_vocal_train_test_node",
+    "node_id": "922f462b",
+    "duration": 0.07893169700400904,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "X_train_vocal",
+    "node_id": "e0f98786",
+    "status": "Available",
+    "size": 333930
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "X_test_vocal",
+    "node_id": "0d055377",
+    "status": "Available",
+    "size": 84330
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "y_train_vocal",
+    "node_id": "a5cfd953",
+    "status": "Available",
+    "size": 39084
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "y_test_vocal",
+    "node_id": "0066a7f9",
+    "status": "Available",
+    "size": 10284
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "X_train",
+    "node_id": "cae2d1c7",
+    "status": "Available",
+    "size": 298928
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "y_train",
+    "node_id": "9ca016a8",
+    "status": "Available",
+    "size": 298921
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "params:model_options",
+    "node_id": "ab512939",
+    "status": "Available",
+    "size": 0
+  },
+  {
+    "event": "after_node_run",
+    "node": "train_model_node",
+    "node_id": "f7510b58",
+    "duration": 4.755318222996721,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "ml_model",
+    "node_id": "a43fa7e1",
+    "status": "Available",
+    "size": 210688
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "X_train_vocal",
+    "node_id": "e0f98786",
+    "status": "Available",
+    "size": 333930
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "y_train_vocal",
+    "node_id": "a5cfd953",
+    "status": "Available",
+    "size": 39084
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "params:model_options_vocal",
+    "node_id": "ac0a0e2b",
+    "status": "Available",
+    "size": 0
+  },
+  {
+    "event": "after_node_run",
+    "node": "train_vocal_model_node",
+    "node_id": "9db5b9de",
+    "duration": 3.4094142230023863,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "ml_model_vocal",
+    "node_id": "fa6ba14b",
+    "status": "Available",
+    "size": 146587
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "ml_model",
+    "node_id": "a43fa7e1",
+    "status": "Available",
+    "size": 210688
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "X_test",
+    "node_id": "872981f9",
+    "status": "Available",
+    "size": 75376
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "y_test",
+    "node_id": "f6d9538c",
+    "status": "Available",
+    "size": 75369
+  },
+  {
+    "event": "after_node_run",
+    "node": "evaluate_model_node",
+    "node_id": "3255661d",
+    "duration": 0.09221590000379365,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "performance_metrics",
+    "node_id": "fa6174c2",
+    "status": "Available",
+    "size": 0
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "ml_model_vocal",
+    "node_id": "fa6ba14b",
+    "status": "Available",
+    "size": 146587
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "X_test_vocal",
+    "node_id": "0d055377",
+    "status": "Available",
+    "size": 84330
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "y_test_vocal",
+    "node_id": "0066a7f9",
+    "status": "Available",
+    "size": 10284
+  },
+  {
+    "event": "after_dataset_loaded",
+    "dataset": "params:vocal_tolerances",
+    "node_id": "63502026",
+    "status": "Available",
+    "size": 0
+  },
+  {
+    "event": "after_node_run",
+    "node": "evaluate_vocal_model_node",
+    "node_id": "6d195094",
+    "duration": 0.08368740000150865,
+    "status": "success"
+  },
+  {
+    "event": "after_dataset_saved",
+    "dataset": "performance_metrics_vocal",
+    "node_id": "ada5459e",
+    "status": "Available",
+    "size": 0
+  },
+  {
     "event": "after_pipeline_run",
-    "timestamp": "2026-02-05T11:35:53.304895+00:00"
+    "timestamp": "2026-03-03T10:44:53.105987+00:00"
   }
 ]

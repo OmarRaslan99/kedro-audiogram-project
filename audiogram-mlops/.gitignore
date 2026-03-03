@@ -158,4 +158,5 @@ venv.bak/
 .mypy_cache/
 
 # mlflow local runs
-mlruns/*
+mlruns/
+outputs/
