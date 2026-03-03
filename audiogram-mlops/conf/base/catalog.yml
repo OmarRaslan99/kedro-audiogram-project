@@ -28,3 +28,36 @@ ml_model:
 
 performance_metrics:
   type: MemoryDataset
+
+# ── Vocal pipeline datasets ──────────────────────────────────────────
+
+vocal_exams_raw:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/vocal_exams_raw.csv
+
+vocal_exams_clean:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/vocal_exams_clean.parquet
+
+X_train_vocal:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_train_vocal.pkl
+
+X_test_vocal:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_test_vocal.pkl
+
+y_train_vocal:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/y_train_vocal.pkl
+
+y_test_vocal:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/y_test_vocal.pkl
+
+ml_model_vocal:
+  type: pickle.PickleDataset
+  filepath: data/06_models/audiogram_vocal_model.pkl
+
+performance_metrics_vocal:
+  type: MemoryDataset
