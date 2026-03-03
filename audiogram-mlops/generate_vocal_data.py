@@ -126,12 +126,11 @@ def visualize_sample_curves(df):
     # Ajout du message d'état final 
     print("\n📈 Affichage de l'extrait des courbes générées...")
     print("📊 Distribution des profils : 30% Transmission, 50% Perception, 20% Severe")
-    print("Checkmark Vert : Total points générés : 42000 (1000 patients)")
     
     plt.tight_layout(rect=[0, 0.03, 1, 0.96])
     plt.show()
 
 # --- 3. EXÉCUTION ---
 if __name__ == "__main__":
-    generated_df = generate_vocal_dataset(n_patients=1000)
+    generated_df = generate_vocal_dataset(n_patients=5000)
     visualize_sample_curves(generated_df)
