@@ -13,13 +13,16 @@
 #    make mlflow       → lance MLflow UI
 #    make stop         → arrête les serveurs
 #    make api          → lance l'API REST Flask (port 5001)
+#    make front        → lance le frontend Streamlit (port 8501)
 #    make docker-build → construit l'image Docker
-#    make docker-run   → lance le conteneur Docker
+#    make docker-run   → lance le conteneur Docker (arrière-plan)
+#    make docker-all   → build + run en une commande
+#    make docker-clean → supprime conteneurs et images Docker
 # ============================================================================
 
 SHELL := /bin/bash
 
-.PHONY: clean tonal vocal run tune-tonal tune-vocal tune viz mlflow api docker-build docker-run stop
+.PHONY: clean tonal vocal run tune-tonal tune-vocal tune viz mlflow api front docker-build docker-run docker-all docker-clean stop
 
 # ── CLEAN ───────────────────────────────────────────────────────────────────
 clean:
@@ -100,6 +103,11 @@ api:
 	@echo "🌐 API REST → http://127.0.0.1:5001"
 	python app.py
 
+# ── FRONTEND STREAMLIT ──────────────────────────────────────────────────────
+front:
+	@echo "🖥️  Frontend Streamlit → http://localhost:8501"
+	streamlit run frontend.py --server.port 8501
+
 # ── DOCKER ──────────────────────────────────────────────────────────────────
 docker-build:
 	@echo "🐳 Construction de l'image Docker..."
@@ -107,8 +115,20 @@ docker-build:
 	@echo "✅ Image Docker construite."
 
 docker-run:
-	@echo "🐳 Lancement du conteneur Docker..."
-	docker run -p 5001:5001 audiogram-mlops:latest
+	@echo "🐳 Lancement du conteneur en arrière-plan..."
+	docker run -d --name audiogram-mlops -p 5001:5001 audiogram-mlops:latest
+	@echo "✅ Conteneur lancé → http://127.0.0.1:5001"
+	@echo "   Logs : docker logs -f audiogram-mlops"
+
+docker-all: docker-build docker-run
+
+docker-clean:
+	@echo "🗑️  Nettoyage Docker complet..."
+	@-docker stop audiogram-mlops 2>/dev/null || true
+	@-docker rm audiogram-mlops 2>/dev/null || true
+	@-docker rmi audiogram-mlops:latest 2>/dev/null || true
+	@-docker system prune -f 2>/dev/null || true
+	@echo "✅ Docker nettoyé."
 
 stop:
 	@echo "🛑 Arrêt des serveurs..."
@@ -116,4 +136,5 @@ stop:
 	@-pkill -f "mlflow ui"    2>/dev/null || true
 	@-pkill -f "mlflow server" 2>/dev/null || true
 	@-pkill -f "python app.py" 2>/dev/null || true
+	@-pkill -f "streamlit"     2>/dev/null || true
 	@echo "✅ Serveurs arrêtés."
