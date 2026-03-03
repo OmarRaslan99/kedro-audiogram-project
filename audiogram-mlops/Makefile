@@ -2,66 +2,40 @@
 #  Makefile — audiogram-mlops (Kedro + MLflow)
 # ============================================================================
 #  Usage :
-#    make clean   → supprime tous les artefacts générés (garde les raw data)
-#    make run     → lance tous les pipelines + kedro-viz + mlflow ui
-#    make run-tonal   → lance uniquement les 4 pipelines tonaux
-#    make run-vocal   → lance uniquement les 4 pipelines vocaux
-#    make stop    → arrête les serveurs kedro-viz et mlflow ui
+#    make clean        → supprime tous les artefacts générés
+#    make tonal        → pipelines tonaux (sans Optuna)
+#    make vocal        → pipelines vocaux (sans Optuna)
+#    make run          → tonal + vocal (sans Optuna)
+#    make tune-tonal   → pipelines tonaux + Optuna
+#    make tune-vocal   → pipelines vocaux + Optuna
+#    make tune         → tonal + vocal + Optuna
+#    make viz          → lance Kedro-Viz
+#    make mlflow       → lance MLflow UI
+#    make stop         → arrête les serveurs
 # ============================================================================
 
 SHELL := /bin/bash
 
-# ── Fichiers / dossiers générés à nettoyer ──────────────────────────────────
-
-# MLflow
-CLEAN_DIRS  := mlruns outputs .viz
-CLEAN_FILES := mlflow.db info.log
-
-# Données intermédiaires et modèles (pas les raw)
-CLEAN_DATA_DIRS := data/02_intermediate data/05_model_input data/06_models
-
-# Python cache
-PYCACHE := $(shell find . -type d -name '__pycache__' 2>/dev/null)
-EGG_INFO := src/audiogram_mlops.egg-info
-
-# ── Cibles ──────────────────────────────────────────────────────────────────
-
-.PHONY: clean run run-tonal run-vocal stop
+.PHONY: clean tonal vocal run tune-tonal tune-vocal tune viz mlflow stop
 
 # ── CLEAN ───────────────────────────────────────────────────────────────────
 clean:
 	@echo "🧹 Nettoyage des artefacts générés..."
-	@# MLflow, outputs, viz
-	rm -rf $(CLEAN_DIRS)
-	rm -f  $(CLEAN_FILES)
-	@# Données intermédiaires / modèles (garde les dossiers vides)
+	rm -rf mlruns outputs .viz
+	rm -f  mlflow.db info.log
 	find data/02_intermediate -type f -delete 2>/dev/null || true
 	find data/05_model_input  -type f -delete 2>/dev/null || true
 	find data/06_models       -type f -delete 2>/dev/null || true
-	@# Python cache
 	find . -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name '*.pyc'      -delete          2>/dev/null || true
-	rm -rf $(EGG_INFO)
+	rm -rf src/audiogram_mlops.egg-info
 	@echo "✅ Nettoyage terminé. Les raw data sont intactes."
 
-# ── RUN (tous les pipelines) ───────────────────────────────────────────────
-run: run-tonal run-vocal
-	@echo ""
-	@echo "🚀 Tous les pipelines terminés. Démarrage des serveurs..."
-	@# Kedro-viz en arrière-plan
-	kedro viz --no-browser &
-	@echo "📊 Kedro-Viz → http://localhost:4141"
-	@# MLflow UI en arrière-plan
-	mlflow ui --host 0.0.0.0 --port 5000 &
-	@echo "📈 MLflow UI  → http://localhost:5000"
-	@echo ""
-	@echo "✅ Tout est lancé. Utilisez 'make stop' pour arrêter les serveurs."
-
-# ── RUN TONAL ──────────────────────────────────────────────────────────────
-run-tonal:
+# ── SANS OPTUNA ─────────────────────────────────────────────────────────────
+tonal:
 	@echo ""
 	@echo "═══════════════════════════════════════"
-	@echo "  Pipeline TONAL"
+	@echo "  Pipeline TONAL (sans Optuna)"
 	@echo "═══════════════════════════════════════"
 	kedro run --pipeline ingestion
 	kedro run --pipeline features
@@ -69,11 +43,10 @@ run-tonal:
 	kedro run --pipeline evaluation
 	@echo "✅ Pipelines tonaux terminés."
 
-# ── RUN VOCAL ──────────────────────────────────────────────────────────────
-run-vocal:
+vocal:
 	@echo ""
 	@echo "═══════════════════════════════════════"
-	@echo "  Pipeline VOCAL"
+	@echo "  Pipeline VOCAL (sans Optuna)"
 	@echo "═══════════════════════════════════════"
 	kedro run --pipeline ingestion_vocal
 	kedro run --pipeline features_vocal
@@ -81,10 +54,46 @@ run-vocal:
 	kedro run --pipeline evaluation_vocal
 	@echo "✅ Pipelines vocaux terminés."
 
-# ── STOP (arrêter les serveurs) ────────────────────────────────────────────
+run: tonal vocal
+
+# ── AVEC OPTUNA ─────────────────────────────────────────────────────────────
+tune-tonal:
+	@echo ""
+	@echo "═══════════════════════════════════════"
+	@echo "  Pipeline TONAL + Optuna"
+	@echo "═══════════════════════════════════════"
+	kedro run --pipeline ingestion
+	kedro run --pipeline features
+	python tune_model.py
+	@echo "✅ Optimisation tonale terminée."
+
+tune-vocal:
+	@echo ""
+	@echo "═══════════════════════════════════════"
+	@echo "  Pipeline VOCAL + Optuna"
+	@echo "═══════════════════════════════════════"
+	kedro run --pipeline ingestion_vocal
+	kedro run --pipeline features_vocal
+	python tune_model_vocal.py
+	@echo "✅ Optimisation vocale terminée."
+
+tune: tune-tonal tune-vocal
+
+# ── SERVEURS ────────────────────────────────────────────────────────────────
+viz:
+	@echo "📊 Kedro-Viz → http://localhost:4141"
+	kedro viz
+
+mlflow:
+	@-pkill -f "mlflow ui" 2>/dev/null || true
+	@-pkill -f "mlflow server" 2>/dev/null || true
+	@sleep 1
+	@echo "📈 MLflow UI → http://localhost:5000"
+	mlflow ui --host 0.0.0.0 --port 5000
+
 stop:
 	@echo "🛑 Arrêt des serveurs..."
-	@-pkill -f "kedro viz"   2>/dev/null || true
-	@-pkill -f "mlflow ui"   2>/dev/null || true
+	@-pkill -f "kedro viz"     2>/dev/null || true
+	@-pkill -f "mlflow ui"    2>/dev/null || true
 	@-pkill -f "mlflow server" 2>/dev/null || true
 	@echo "✅ Serveurs arrêtés."

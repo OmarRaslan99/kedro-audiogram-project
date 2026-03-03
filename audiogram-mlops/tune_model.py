@@ -54,8 +54,16 @@ if __name__ == "__main__":
     # Lancement de l'optimisation sur 20 essais
     study.optimize(objective, n_trials=20)
     
-    print("\n" + "="*30)
+    best = study.best_params
+    print("\n" + "="*50)
     print("OPTIMISATION TERMINÉE")
     print(f"Meilleure MAE trouvée : {study.best_value:.4f} dB")
-    print(f"Paramètres optimaux : {study.best_params}")
-    print("="*30)
+    print(f"Paramètres optimaux : {best}")
+    print("="*50)
+
+    # 🔁 Re-run final avec les meilleurs paramètres pour sauvegarder le modèle optimal
+    print("\n🔁 Re-entraînement final avec les meilleurs paramètres...")
+    best_params = f"model_options.n_estimators={best['n_estimators']},model_options.max_depth={best['max_depth']}"
+    os.system(f"kedro run --pipeline training --params {best_params}")
+    os.system(f"kedro run --pipeline evaluation")
+    print("✅ Modèle optimal sauvegardé dans data/06_models/audiogram_model.pkl")
