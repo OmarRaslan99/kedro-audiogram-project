@@ -11,9 +11,10 @@ def objective(trial):
     n_estimators = trial.suggest_int("n_estimators", 10, 200)
     max_depth = trial.suggest_int("max_depth", 2, 15)
     
-    # 2. Exécution du pipeline Kedro avec les paramètres suggérés
-    cmd = f"kedro run --params model_options.n_estimators={n_estimators},model_options.max_depth={max_depth}"
-    os.system(cmd)
+    # 2. Exécution des pipelines training + evaluation avec les paramètres suggérés
+    params = f"model_options.n_estimators={n_estimators},model_options.max_depth={max_depth}"
+    os.system(f"kedro run --pipeline training --params {params}")
+    os.system(f"kedro run --pipeline evaluation")
     
     # 3. Récupération sécurisée du score MAE depuis MLflow
     client = mlflow.tracking.MlflowClient()
